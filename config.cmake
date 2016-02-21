@@ -161,7 +161,7 @@ IF (NOT Simox_CONFIGURED)
     endif()
     
     #urdf
-    OPTION (Simox_USE_URDF "Use URDF" OFF)
+    OPTION (Simox_USE_URDF "Use URDF" ON)
 
     #### Eigen
     FIND_PACKAGE (Eigen3 REQUIRED)

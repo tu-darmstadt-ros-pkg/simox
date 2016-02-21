@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package>
+  <name>hector_simox</name>
+  <version>2.3.26</version>
+  <description>
+    Simox is a lightweight platform independent C++ toolbox containing three libraries for 3D simulation of robot systems, sampling based motion planning and grasp planning.
+  </description>
+
+  <maintainer email="vahrenkamp@kit.edu">Nikolaus Vahrenkamp</maintainer>
+  <license>BSD</license>
+  <url type="repository">https://gitlab.com/Simox/simox</url>
+  <author email="vahrenkamp@kit.edu">Nikolaus Vahrenkamp</author>
+
+  <!-- The *_depend tags are used to specify dependencies -->
+  <buildtool_depend>cmake</buildtool_depend>
+  <build_depend>eigen</build_depend>
+  <build_depend>boost</build_depend>
+  <run_depend>eigen</run_depend>
+  <run_depend>boost</run_depend>
+
+  <export>
+    <!-- Specify that this is not really a ROS package-->
+    <build_type>cmake</build_type>
+  </export>
+</package>
