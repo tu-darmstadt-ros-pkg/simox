@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package>
-  <name>hector_simox</name>
+  <name>simox</name>
   <version>2.3.26</version>
   <description>
     Simox is a lightweight platform independent C++ toolbox containing three libraries for 3D simulation of robot systems, sampling based motion planning and grasp planning.
