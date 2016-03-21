@@ -254,6 +254,7 @@ namespace VirtualRobot
             Eigen::Matrix4f p = convertPose(pose);
             if (g->type == urdf::Geometry::CYLINDER)
             {
+                // inventor and urdf differ in the conventions for cylinders
                 p = p * MathTools::axisangle2eigen4f(Eigen::Vector3f::UnitX(), M_PI_2);
             }
             factory->applyDisplacement(res, p);
