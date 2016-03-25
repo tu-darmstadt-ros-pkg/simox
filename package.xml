@@ -7,7 +7,7 @@
   </description>
 
   <maintainer email="vahrenkamp@kit.edu">Nikolaus Vahrenkamp</maintainer>
-  <license>BSD</license>
+  <license>LGPLv2.1</license>
   <url type="repository">https://gitlab.com/Simox/simox</url>
   <author email="vahrenkamp@kit.edu">Nikolaus Vahrenkamp</author>
 
