@@ -1510,9 +1510,9 @@ namespace VirtualRobot
         THROW_VR_EXCEPTION_IF(cellSize <= 0.0f, "Invalid parameter");
 
         float sizeX = result->maxBounds[0] - result->minBounds[0];
-        int numVoxelsX = (int)(sizeX / cellSize);
+        int numVoxelsX = std::ceil(sizeX / cellSize);
         float sizeY = result->maxBounds[1] - result->minBounds[1];
-        int numVoxelsY = (int)(sizeY / cellSize);
+        int numVoxelsY = std::ceil(sizeY / cellSize);
 
 
         Eigen::Matrix4f tmpPose = referencePose;
