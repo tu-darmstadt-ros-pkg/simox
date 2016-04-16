@@ -766,9 +766,10 @@ namespace VirtualRobot
         for (int i = 0; i < 6; i++)
         {
             a = (int)(((x[i] - minBounds[i]) / spaceSize[i]) * (float)numVoxels[i]);
-
+            //cout << a << " = (" << x[i] << "-" << minBounds[i] << ") / " << spaceSize[i] << " * " << (float)numVoxels[i] << endl;
             if (a < 0)
             {
+
                 return false;    //pos[i] = 0; // if pose is outside of voxel space, ignore it
             }
             else if (a >= numVoxels[i])
