@@ -870,7 +870,22 @@ namespace VirtualRobot
 
             if (!robot->getCollisionChecker()->checkCollision(staticCollisionModel, dynamicCollisionModel))
             {
-                return true;
+                // check for self collisions in dynamic part
+                bool dynamicSelfCollision = false;
+                SceneObjectSetPtr others(new SceneObjectSet(*dynamicCollisionModel));
+                BOOST_FOREACH(SceneObjectPtr current, others->getSceneObjects())
+                {
+                    others->removeSceneObject(current);
+                    dynamicSelfCollision = robot->getCollisionChecker()->checkCollision(current, others);
+
+                    if (dynamicSelfCollision)
+                    {
+                        break;
+                    }
+                }
+
+                if (!dynamicSelfCollision)
+                    return true;
             }
 
             collisionConfigs++;
@@ -1947,7 +1962,7 @@ namespace VirtualRobot
             }
             else
             {
-                VR_WARNING << "Could not find collision-free configuration...";
+                VR_WARNING << "Could not find collision-free configuration..." << std::endl;
             }
         }
 
