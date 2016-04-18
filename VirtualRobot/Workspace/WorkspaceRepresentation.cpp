@@ -768,7 +768,7 @@ namespace VirtualRobot
         for (int i = 0; i < 6; i++)
         {
             //a = (int)((x[i] - minBounds[i]) / (i < 3 ? discretizeStepTranslation : discretizeStepRotation));
-            a = (int)(((x[i] - minBounds[i]) / spaceSize[i]) * (float)numVoxels[i]);
+            a = floor(((x[i] - minBounds[i]) / spaceSize[i]) * (float)numVoxels[i]);
             //cout << a << " = (" << x[i] << "-" << minBounds[i] << ") / " << spaceSize[i] << " * " << (float)numVoxels[i] << endl;
             if (a < 0)
             {
@@ -803,7 +803,7 @@ namespace VirtualRobot
 
         for (int i = 0; i < 3; i++)
         {
-            a = (int)(((x[i] - minBounds[i]) / spaceSize[i]) * (float)numVoxels[i]);
+            a = floor(((x[i] - minBounds[i]) / spaceSize[i]) * (float)numVoxels[i]);
             if (a < 0)
             {
                 return false;    //pos[i] = 0; // if pose is outside of voxel space, ignore it
@@ -1153,11 +1153,11 @@ namespace VirtualRobot
 
             if (i < 3)
             {
-                numVoxels[i] = (int)(spaceSize[i] / discretizeStepTranslation) + 1;
+                numVoxels[i] = ceil(spaceSize[i] / discretizeStepTranslation);
             }
             else
             {
-                numVoxels[i] = (int)(spaceSize[i] / discretizeStepRotation) + 1;
+                numVoxels[i] = ceil(spaceSize[i] / discretizeStepRotation);
             }
 
             THROW_VR_EXCEPTION_IF((numVoxels[i] <= 0), " numVoxels <= 0 in dimension " << i);
@@ -1538,9 +1538,9 @@ namespace VirtualRobot
         THROW_VR_EXCEPTION_IF(cellSize <= 0.0f, "Invalid parameter");
 
         float sizeX = result->maxBounds[0] - result->minBounds[0];
-        int numVoxelsX = std::ceil(sizeX / cellSize);
+        int numVoxelsX = ceil(sizeX / cellSize);
         float sizeY = result->maxBounds[1] - result->minBounds[1];
-        int numVoxelsY = std::ceil(sizeY / cellSize);
+        int numVoxelsY = ceil(sizeY / cellSize);
 
 
         Eigen::Matrix4f tmpPose = referencePose;
