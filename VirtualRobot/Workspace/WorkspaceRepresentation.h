@@ -65,7 +65,8 @@ namespace VirtualRobot
         {
             RPY,
             EulerXYZ,           // intrinsic
-            EulerXYZExtrinsic   // fixed frame (standard)
+            EulerXYZExtrinsic,  // fixed frame (standard)
+            EulerZYX
         };
 
         WorkspaceRepresentation(RobotPtr robot);

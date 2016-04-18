@@ -28,7 +28,8 @@ namespace VirtualRobot
         type = "WorkspaceRepresentation";
         versionMajor = 2;
         versionMinor = 7;
-        orientationType = EulerXYZExtrinsic;
+//        orientationType = EulerXYZExtrinsic;
+        orientationType = EulerZYX;
         reset();
     }
 
@@ -190,7 +191,8 @@ namespace VirtualRobot
 
             if (version[0] > 2 || (version[0] == 2 && version[1] > 6))
             {
-                orientationType = EulerXYZExtrinsic;
+//                orientationType = EulerXYZExtrinsic;
+                orientationType = EulerZYX;
             }
             else if (version[0] == 2 && version[1] == 6)
             {
@@ -765,6 +767,7 @@ namespace VirtualRobot
 
         for (int i = 0; i < 6; i++)
         {
+            //a = (int)((x[i] - minBounds[i]) / (i < 3 ? discretizeStepTranslation : discretizeStepRotation));
             a = (int)(((x[i] - minBounds[i]) / spaceSize[i]) * (float)numVoxels[i]);
             //cout << a << " = (" << x[i] << "-" << minBounds[i] << ") / " << spaceSize[i] << " * " << (float)numVoxels[i] << endl;
             if (a < 0)
@@ -877,6 +880,11 @@ namespace VirtualRobot
                 BOOST_FOREACH(SceneObjectPtr current, others->getSceneObjects())
                 {
                     others->removeSceneObject(current);
+                    if (others->getSize() == 0)
+                    {
+                        break;
+                    }
+
                     dynamicSelfCollision = robot->getCollisionChecker()->checkCollision(current, others);
 
                     if (dynamicSelfCollision)
@@ -973,6 +981,10 @@ namespace VirtualRobot
 
                 case EulerXYZ:
                     cout << "EulerXYZ-Intrinsic" << endl;
+                    break;
+
+                case EulerZYX:
+                    cout << "EulerZYX" << endl;
                     break;
 
                 case EulerXYZExtrinsic:
@@ -1788,6 +1800,22 @@ namespace VirtualRobot
             }
             break;
 
+            case EulerZYX:
+            {
+                x[0] = m(0, 3);
+                x[1] = m(1, 3);
+                x[2] = m(2, 3);
+
+                Eigen::Matrix3f m_3 = m.block(0, 0, 3, 3);
+                Eigen::Vector3f rotEulerxyz = m_3.eulerAngles(2, 1, 0);
+
+                // intrinsic rotation (x y z)
+                x[3] = rotEulerxyz(0);
+                x[4] = rotEulerxyz(1);
+                x[5] = rotEulerxyz(2);
+            }
+            break;
+
             case EulerXYZExtrinsic:
             {
                 x[0] = m(0, 3);
@@ -1865,6 +1893,20 @@ namespace VirtualRobot
                 m_3(2,0) =  -s2;      m_3(2,1) =  c2*s3;            m_3(2,2) =  c2*c3;
                 */
 
+                m.block(0, 0, 3, 3) = m_3;
+            }
+            break;
+
+            case EulerZYX:
+            {
+                m.setIdentity();
+                m(0, 3) = x[0];
+                m(1, 3) = x[1];
+                m(2, 3) = x[2];
+                Eigen::Matrix3f m_3;
+                m_3 = Eigen::AngleAxisf(x[3], Eigen::Vector3f::UnitZ())
+                    * Eigen::AngleAxisf(x[4], Eigen::Vector3f::UnitY())
+                    * Eigen::AngleAxisf(x[5], Eigen::Vector3f::UnitX());
                 m.block(0, 0, 3, 3) = m_3;
             }
             break;
